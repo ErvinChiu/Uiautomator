@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/event_manage/">Guest Manage System</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">发布会</a></li>
+            <li><a href="/guest_manage/">嘉宾</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+           <li><a href="#">{{user}}</a></li>
+           <li><a href="/logout/">退出</a></li>
+         </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+
+
+<div class="container">
+
+  <br>
+  <!-- Nav pills -->
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="pill" href="#home">个人信息</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu1">考试信息</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu2">成绩查询</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+      <h3>个人信息</h3>
+
+        <table class="table">
+    <thead>
+      <tr>
+        <th>属性</th>
+        <th>信息</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>学号</td>
+        <td>{{ student.id }}</td>
+
+      </tr>
+      <tr class="table-primary">
+        <td>姓名</td>
+        <td>{{ student.name }}</td>
+
+      </tr>
+      <tr class="table-success">
+        <td>性别</td>
+        <td>{{ student.sex }}</td>
+
+      </tr>
+      <tr class="table-danger">
+        <td>学院</td>
+        <td>{{ student.dept }}</td>
+
+      </tr>
+
+       <tr class="table-success">
+        <td>专业</td>
+        <td>{{ student.major }}</td>
+
+      </tr>
+
+      <tr class="table-warning">
+        <td>邮箱地址</td>
+        <td>{{ student.email }}</td>
+
+      </tr>
+      <tr class="table-active">
+        <td>出生日期</td>
+        <td>{{ student.birth }}</td>
+
+      </tr>
+
+    </tbody>
+  </table>
+    </div>
+
+    <div id="menu1" class="container tab-pane fade"><br>
+      <h3>考试信息</h3>
+      <p></p>
+        <table class="table">
+    <thead>
+      <tr>
+          <th>学号</th>
+        <th>姓名</th>
+        <th>考试科目</th>
+          <th>考试时间</th>
+          <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    {#   遍历字典  paper #}
+    {% for paper1 in paper %}
+
+     <tr class="table-info">
+          <td>{{ student.id }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ paper1.subject }}{{ paper2.subject }}</td>
+          <td>{{ paper1.examtime }} {{ paper2.examtime }}</td>
+          <td>
+              <a href="/startExam/?sid={{ student.id }}&subject={{ paper1.subject }}">
+              <button class="btn btn-primary" id="toExam+{{ paper1.subject }}">开始考试</button>
+             </a>
+          </td>
+      </tr>
+    {% endfor %}
+
+
+
+    </tbody>
+  </table>
+    </div>
+
+    <div id="menu2" class="container tab-pane fade"><br>
+      <h3>考试成绩</h3>
+      <p></p>
+        <table class="table">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>科目</th>
+            <th>成绩</th>
+
+          </tr>
+        </thead>
+    <tbody>
+
+    {% for grade1 in grade %}
+        <tr class="table-primary">
+        <td>{{ student.name }}</td>
+        <td>{{ grade1.subject }}</td>
+        <td>{{ grade1.grade }}</td>
+
+      </tr>
+    {% endfor %}
+
+
+
+
+    </tbody>
+  </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <div class="container theme-showcase" role="main">
+
+      <!--发布会表单-->
+      <div class="page-header">
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form" method="get" action="/search_name/">
+            <div class="form-group">
+              <input name="name" type="text" placeholder="名称" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">搜索</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>名称</th>
+                <th>状态</th>
+                <th>地址</th>
+                <th>时间</th>
+                <th style="width: 45px;">签到</th>
+                <th>签到正式</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for event in events %}
+                <tr>
+                  <td>{{ event.id }}</td>
+                  <td>{{ event.name }}</td>
+                  <td>{{ event.status }}</td>
+                  <td>{{ event.address }}</td>
+                  <td>{{ event.start_time }}</td>
+                  <td><a href="/sign_index/{{ event.id }}/"  target="{{ event.id }}_blank">sign</a></td>
+                  <td><a href="/sign_index2/{{ event.id }}/"  target="{{ event.id }}_blank">sign_web</a></td>
+                </tr>
+             {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+{% endblock %}
